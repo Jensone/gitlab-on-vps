@@ -6,6 +6,7 @@ L'installation de GitLab et de GitLab Runner sur un VPS Ubuntu vous permettra de
 - Accès avec des privilèges sudo.
 - Une connexion Internet stable.
 
+
 **Étape 1 : Mise à jour des paquets Ubuntu**
 
 Avant de commencer, assurez-vous que votre système est à jour :
@@ -21,16 +22,14 @@ sudo apt update && sudo apt upgrade -y
 1. **Installer les dépendances requises :**
 
    ```bash
-   sudo apt install -y curl openssh-server ca-certificates
+   sudo apt install -y curl openssh-server ca-certificates tzdata perl
    ```
-
 
 2. **Ajouter le dépôt GitLab :**
 
    ```bash
-   curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+   curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | bash
    ```
-
 
 3. **Installer GitLab Community Edition :**
 
@@ -39,18 +38,21 @@ sudo apt update && sudo apt upgrade -y
    ```bash
    sudo EXTERNAL_URL="http://votre_domaine" apt install gitlab-ce
    ```
-
 
 4. **Configurer GitLab :**
 
-   Après l'installation, GitLab s'initialisera automatiquement. Accédez à `http://votre_domaine` dans votre navigateur pour finaliser la configuration initiale et définir le mot de passe administrateur.
+   Après l'installation, GitLab s'initialisera automatiquement. Accédez à `http://votre_domaine` dans votre navigateur pour finaliser la configuration initiale et définir le mot de passe administrateur. Les identifiants par défaut sont :
+
+   - `root`
+   - voir le fichier `/etc/gitlab/initial_root_password`
+
 
 **Étape 3 : Installation de GitLab Runner**
 
 1. **Ajouter le dépôt officiel de GitLab Runner :**
 
    ```bash
-   curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+   curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | bash
    ```
 
 2. **Installer GitLab Runner :**
@@ -58,6 +60,7 @@ sudo apt update && sudo apt upgrade -y
    ```bash
    sudo apt install gitlab-runner
    ```
+
 
 **Étape 4 : Enregistrement de GitLab Runner**
 
@@ -81,6 +84,7 @@ sudo apt update && sudo apt upgrade -y
    - **Tags :** Ajoutez des tags pertinents pour identifier le Runner.
    - **Exécuteur :** Choisissez `shell` pour une exécution directe des commandes.
 
+
 **Étape 5 : Démarrage et activation du service GitLab Runner**
 
 1. **Démarrer le service :**
@@ -88,14 +92,14 @@ sudo apt update && sudo apt upgrade -y
    ```bash
    sudo gitlab-runner start
    ```
-
+
 
 2. **Activer le démarrage automatique :**
 
    ```bash
    sudo systemctl enable gitlab-runner
    ```
-
+
 
 **Étape 6 : Vérification du statut du Runner**
 
